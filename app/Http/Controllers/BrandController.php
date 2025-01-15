@@ -3,8 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+<<<<<<< HEAD
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+=======
+<<<<<<< HEAD
+use Yajra\DataTables\DataTables;
+use Illuminate\Http\Request;
+=======
+use App\Events\SendEmail;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
 class BrandController extends Controller
 {
@@ -18,7 +29,15 @@ class BrandController extends Controller
             'pageName' => 'Brands',
             'breadcrumb' => '<li class="breadcrumb-item"><a href="' . route('dashboard') . '">Dashboard</a></li>
                               <li class="breadcrumb-item active">Brands</li>',
+<<<<<<< HEAD
             
+=======
+<<<<<<< HEAD
+            
+=======
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         ];
 
         return view('pages.brand.index')->with($pageData);
@@ -42,6 +61,10 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         // Validate the input
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     $request->validate([
         'name' => 'required|string|max:255', // Assuming 'name' is required
     ]);
@@ -52,6 +75,18 @@ class BrandController extends Controller
     $brand->save();
 
     return redirect()->route('brands.index')->with('success', 'Brand created successfully.');
+<<<<<<< HEAD
+=======
+=======
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Brand::create($validated);
+
+        return redirect()->route('brands.index')->with('success', 'Brand created successfully.');
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
     }
 
@@ -61,6 +96,10 @@ class BrandController extends Controller
     public function show(Request $request)
     {
         $data = Brand::query();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     
     return DataTables::of($data)
         ->addColumn('id', function ($row) {
@@ -107,6 +146,69 @@ class BrandController extends Controller
         ->rawColumns(['actions'])  //  'actions' column is raw for HTML content
         ->toJson();
         
+<<<<<<< HEAD
+=======
+=======
+        if ($request->has('show_trashed') && $request->show_trashed == 'true') {
+            $data->onlyTrashed();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('id', function ($row) {
+                return $row->id;
+            })
+            ->addColumn('name', function ($row) {
+                return $row->name;
+            })
+            ->orderColumn('name', function ($query, $order) {
+                $query->orderBy('name', $order)->orderBy('id', $order);
+            })
+            ->filterColumn('name', function ($query, $keyword) {
+                $query->where('name', 'like', "%$keyword%");
+            })
+            ->addColumn('items', function ($row) {
+                return $row->items->count(); // Counting the related items
+            })
+        // Sorting logic for 'items' column
+            ->orderColumn('items', function ($query, $order) {
+                $query->withCount('items')->orderBy('items_count', $order);
+            })
+        // Adding 'models' column (with count)
+            ->addColumn('models', function ($row) {
+                return $row->models->count(); // Counting the related models
+            })
+
+        // Sorting logic for 'models' column
+            ->orderColumn('models', function ($query, $order) {
+                $query->withCount('models')->orderBy('models_count', $order);
+            })
+            ->addColumn('actions', function ($row) {
+                if ($row->trashed()) {
+                    return '
+                    <a href="#" title="Restore" onclick="handleAction(' . $row->id . ', \'restore\')" data-bs-toggle="tooltip">
+                        <i class="fas fa-redo-alt"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="#" title="Permanent Delete" onclick="handleAction(' . $row->id . ', \'permanentDelete\')" data-bs-toggle="tooltip">
+                        <i class="fa fa-trash text-danger font-18"></i>
+                    </a>';
+                } else {
+                    return '
+                    <a href="#" title="Edit Models" data-url="' . route('brands.edit', [$row->id]) . '" data-size="small" data-ajax-popup="true"
+                        data-title="' . __('Edit Model') . '" data-bs-toggle="tooltip">
+                        <i class="fas fa-edit text-info font-18"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="#" title="Delete" onclick="handleAction(' . $row->id . ', \'delete\')" data-bs-toggle="tooltip">
+                        <i class="fa fa-trash text-danger font-18"></i>
+                    </a>';
+                }
+            })
+            ->rawColumns(['actions']) //  'actions' column is raw for HTML content
+            ->toJson();
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     }
 
     /**
@@ -116,7 +218,15 @@ class BrandController extends Controller
     {
         $brand = Brand::findOrFail($id);
         $data = [
+<<<<<<< HEAD
             "action" => route('brands.update',[$brand->id]),
+=======
+<<<<<<< HEAD
+            "action" => route('brands.update',[$brand->id]),
+=======
+            "action" => route('brands.update', [$brand->id]),
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
             'row' => $brand,
             "method" => "PUT",
         ];
@@ -128,6 +238,10 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
          // Validate the input
          $request->validate([
             'name' => 'required|string|max:255', // Assuming 'name' is required
@@ -140,6 +254,19 @@ class BrandController extends Controller
         $brand->name = $request->name;
         $brand->save();
 
+<<<<<<< HEAD
+=======
+=======
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $brand = Brand::findOrFail($id);
+        $brand->update($validated);
+        
+        event(new SendEmail($brand));
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         return redirect()->route('brands.index')->with('success', 'Brand updated successfully.');
     }
 
@@ -151,6 +278,33 @@ class BrandController extends Controller
         $brand = Brand::findOrFail($id);
         $brand->delete();
 
+<<<<<<< HEAD
         return redirect()->back()->with('success' , 'Brand deleted successfully.');
+=======
+<<<<<<< HEAD
+        return redirect()->back()->with('success' , 'Brand deleted successfully.');
+=======
+        return response()->json(['success' => true]);
+    }
+    public function restore($id)
+    {
+        $brand = Brand::withTrashed()->find($id);
+        if ($brand) {
+            $brand->restore();
+            return response()->json(['success' => 'Brand restored successfully']);
+        }
+
+        return response()->json(['error' => 'Brand not found'], 404);
+    }
+    public function forceDelete($id)
+    {
+        $brand = Brand::withTrashed()->find($id);
+        if (!empty($brand)) {
+            $brand->forceDelete();
+            return response()->json(['message' => 'Brand has been permanently deleted.'], 200);
+        }
+        return response()->json(['message' => 'Brand not found.'], 404);
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     }
 }

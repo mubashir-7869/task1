@@ -1,9 +1,29 @@
 <?php
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\BrandController;
+<<<<<<< HEAD
+=======
+=======
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ModelController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SMSController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UserController;
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +38,15 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::middleware('auth')->group(function () {
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+    
+=======
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('profile')->name('profile.')->group(function () {
@@ -27,6 +55,10 @@ Route::middleware('auth')->group(function () {
         Route::patch('/update', [ProfileController::class, 'update'])->name('update');
         Route::get('/destroy', [ProfileController::class, 'destroy'])->name('destroy');
     });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     // Item 
     Route::resource('item', ItemController::class);
     Route::prefix('item')->name('item.')->group(function () {
@@ -44,10 +76,39 @@ Route::middleware('auth')->group(function () {
 
    
 // Brand 
+<<<<<<< HEAD
+=======
+=======
+    // Item
+    Route::resource('item', ItemController::class);
+    Route::prefix('item')->name('item.')->group(function () {
+        Route::get('/search', [ItemController::class, 'show'])->name('show');
+        Route::get('/search/model', [ItemController::class, 'searchModel'])->name('search_model');
+        Route::get('/destroy/{id}', [ItemController::class, 'destroy'])->name('destroy');
+        Route::post('/restore/{id}', [ItemController::class, 'restore'])->name('restore');
+        Route::delete('/forceDelete/{id}', [ItemController::class, 'forceDelete'])->name('forceDelete');
+    });
+
+    // Models
+    Route::resource('models', ModelController::class);
+    Route::prefix('models')->name('models.')->group(function () {
+        Route::get('/show', [ModelController::class, 'show'])->name('show');
+        Route::get('/destroy/{id}', [ModelController::class, 'destroy'])->name('destroy');
+        Route::post('/restore/{id}', [ModelController::class, 'restore'])->name('restore');
+        Route::delete('/forceDelete/{id}', [ModelController::class, 'forceDelete'])->name('forceDelete');
+    });
+
+// Brand
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     Route::resource('brands', BrandController::class);
     Route::prefix('brands')->name('brands.')->group(function () {
         Route::get('/show', [BrandController::class, 'show'])->name('show');
         Route::get('/destroy/{id}', [BrandController::class, 'destroy'])->name('destroy');
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
     });
 
@@ -56,4 +117,44 @@ Route::middleware('auth')->group(function () {
 
 });
 
+<<<<<<< HEAD
+=======
+=======
+        Route::post('/restore/{id}', [BrandController::class, 'restore'])->name('restore');
+        Route::delete('/forceDelete/{id}', [BrandController::class, 'forceDelete'])->name('forceDelete');
+    });
+
+    Route::resource('email', EmailController::class);
+    Route::resource('sms', SMSController::class);
+
+    Route::middleware(['can:edit user'])->group(function () {
+        Route::resource('permissions', PermissionController::class);
+        Route::prefix('permission')->name('permission.')->group(function () {
+            Route::get('/show', [PermissionController::class, 'show'])->name('show');
+            Route::get('/destroy/{id}', [PermissionController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::resource('roles', RoleController::class);
+        Route::prefix('role')->name('role.')->group(function () {
+            Route::get('/show', [RoleController::class, 'show'])->name('show');
+            Route::get('/destroy/{id}', [RoleController::class, 'destroy'])->name('destroy');
+        });
+        Route::resource('users', UserController::class);
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('/show', [UserController::class, 'show'])->name('show');
+            Route::get('/destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
+        });
+    });
+    Route::resource('services', ServiceController::class);
+    Route::prefix('service')->name('service.')->group(function () {
+        Route::get('/show', [ServiceController::class, 'show'])->name('show');
+        Route::get('/destroy/{id}', [ServiceController::class, 'destroy'])->name('destroy');
+        Route::get('/purchase/{id}', [ServiceController::class, 'purchase'])->name('purchase');
+        Route::post('/handlePayment', [ServiceController::class, 'handlePayment'])->name('handlePayment');
+    });
+});
+
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 require __DIR__ . '/auth.php';

@@ -2,10 +2,23 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 use Illuminate\Http\Request;
 use App\Models\Models;
 use Yajra\DataTables\DataTables;
 use App\Models\Brand;
+<<<<<<< HEAD
+=======
+=======
+use App\Models\Brand;
+use App\Models\Models;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
 class ModelController extends Controller
 {
@@ -19,7 +32,15 @@ class ModelController extends Controller
             'pageName' => 'All Models',
             'breadcrumb' => '<li class="breadcrumb-item"><a href="' . route('dashboard') . '">Dashboard</a></li>
                               <li class="breadcrumb-item active">All Models</li>',
+<<<<<<< HEAD
             
+=======
+<<<<<<< HEAD
+            
+=======
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         ];
 
         return view('pages.models.index')->with($pageData);
@@ -44,6 +65,10 @@ class ModelController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
          // Validate the input
     $request->validate([
         'name' => 'required|string|max:255',  // Ensure name is provided
@@ -59,10 +84,29 @@ class ModelController extends Controller
     // Redirect to the appropriate page with a success message
     return redirect()->route('models.index')->with('success', 'Model created successfully.');
 }
+<<<<<<< HEAD
+=======
+=======
+        // Validate the input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'brand_id' => 'required|exists:brands,id',
+        ]);
+
+        Models::create($validated);
+
+        return redirect()->route('models.index')->with('success', 'Model created successfully.');
+    }
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
     /**
      * Display the specified resource.
      */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     public function show(string $id)
     {
        $data = Models::query();
@@ -119,11 +163,81 @@ class ModelController extends Controller
     }
 
 
+<<<<<<< HEAD
+=======
+=======
+    public function show(Request $request)
+    {
+        $data = Models::query();
+
+        if ($request->has('show_trashed') && $request->show_trashed == 'true') {
+            $data->onlyTrashed();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('id', function ($row) {
+                return $row->id;
+            })
+            ->addColumn('name', function ($row) {
+                return $row->name;
+            })
+            ->orderColumn('name', function ($query, $order) {
+                $query->orderBy('name', $order)->orderBy('id', $order);
+            })
+            ->filterColumn('name', function ($query, $keyword) {
+                $query->where('name', 'like', "%$keyword%");
+            })
+            ->addColumn('brand_name', function ($row) {
+                return $row->brand->name ?? 'N/A';
+            })
+            ->filterColumn('brand_name', function ($query, $keyword) {
+                $query->whereHas('brand', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('items', function ($row) {
+                return $row->items->count() ;
+            })
+            ->orderColumn('items', function ($query, $order) {
+                $query->withCount('items')->orderBy('items_count', $order);
+            })
+            ->addColumn('actions', function ($row) {
+                if ($row->trashed()) {
+                    return '
+                    <a href="#" title="Restore" onclick="handleAction(' . $row->id . ',\'restore\')" data-bs-toggle="tooltip">
+                        <i class="fas fa-redo-alt"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="#" title="Permanent Delete" onclick="handleAction(' . $row->id . ', \'permanentDelete\')" data-bs-toggle="tooltip">
+                        <i class="fa fa-trash text-danger font-18"></i>
+                    </a>';
+                } else {
+                    return '
+                    <a href="#" title="Edit Model" data-url="' . route('models.edit', [$row->id]) . '" data-size="small" data-ajax-popup="true"
+                       data-title="' . __('Edit Model') . '" data-bs-toggle="tooltip">
+                        <i class="fas fa-edit text-info font-18"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="#" title="Delete" onclick="handleAction(' . $row->id . ', \'delete\')" data-bs-toggle="tooltip">
+                        <i class="fa fa-trash text-danger font-18"></i>
+                    </a>';
+                }
+            })
+            ->rawColumns(['actions'])
+            ->toJson();
+    }
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         // Find the model by ID, if not found return to the model list with an error message
         $model = Models::findOrFail($id);
         // Get all brands to populate the select dropdown for the brand
@@ -133,6 +247,18 @@ class ModelController extends Controller
             'row' => $model,
             'brands' => $brands,
             'method' => 'PUT',  // Use PUT method for update
+<<<<<<< HEAD
+=======
+=======
+        $model = Models::findOrFail($id);
+        $brands = Brand::all();
+        $data = [
+            'action' => route('models.update', $model->id), // URL for the update action
+            'row' => $model,
+            'brands' => $brands,
+            'method' => 'PUT',
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         ];
         return view('pages.models.form')->with($data);
     }
@@ -142,6 +268,10 @@ class ModelController extends Controller
     public function update(Request $request, string $id)
     {
         // Validate the input
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         $request->validate([
             'name' => 'required|string|max:255',  
             'brand_id' => 'required|exists:brands,id', 
@@ -171,4 +301,47 @@ class ModelController extends Controller
         // Redirect back to the models list with a success message
         return redirect()->route('models.index')->with('success', 'Model deleted successfully.');
     }
+<<<<<<< HEAD
+=======
+=======
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'brand_id' => 'required|exists:brands,id',
+        ]);
+
+        $model = Models::findOrFail($id);
+
+        $model->update($validated);
+        return redirect()->route('models.index')->with('success', 'Model updated successfully.');
+    }
+    public function destroy(string $id)
+    {
+        $model = Models::findOrFail($id);
+        $model->delete();
+        return redirect()->route('models.index')->with('success', 'Model deleted successfully.');
+    }
+    public function restore($id)
+    {
+        $model = Models::withTrashed()->find($id);
+        if ($model) {
+            $model->restore();
+            return response()->json(['success' => 'Model restored successfully']);
+        }
+
+        return response()->json(['error' => 'Model not found'], 404);
+    }
+
+    public function forceDelete($id)
+    {
+        $model = Models::withTrashed()->find($id);
+        if ($model) {
+            $model->forceDelete();
+            return response()->json(['message' => 'Model permanently deleted']);
+        }
+
+        return response()->json(['message' => 'Model not found'], 404);
+    }
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 }
