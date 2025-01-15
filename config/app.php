@@ -165,7 +165,15 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+<<<<<<< HEAD
         // App\Providers\BroadcastServiceProvider::class,
+=======
+<<<<<<< HEAD
+        // App\Providers\BroadcastServiceProvider::class,
+=======
+        App\Providers\BroadcastServiceProvider::class,
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\MessageServiceProvider::class,

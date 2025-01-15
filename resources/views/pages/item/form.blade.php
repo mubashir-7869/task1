@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 {{ Form::open(['url' => $action, 'method' => $method]) }}
+=======
+<<<<<<< HEAD
+{{ Form::open(['url' => $action, 'method' => $method]) }}
+=======
+{{ Form::open(['url' => $action, 'method' => $method, 'enctype' => 'multipart/form-data']) }}
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12">
@@ -25,6 +33,25 @@
                 {{ Form::select('model_id', ['' => '-- Select Brand First --'], '', ['class' => 'form-control', 'id' => 'model']) }}
             </div>
         </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ Form::label('image', __('Image'), ['class' => 'col-form-label']) }}
+                {{ Form::file('image', ['class' => 'form-control']) }}
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ Form::label('quantity', __('Quantity'), ['class' => 'col-form-label']) }}
+                {{ Form::number('quantity', $row->quantity ?? null, ['class' => 'form-control', 'placeholder' => __('Enter Quantity')]) }}
+            </div>
+        </div>
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     </div>
 </div>
 <div class="modal-footer">
@@ -33,18 +60,38 @@
 </div>
 {{ Form::close() }}
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 <script>
     $(document).ready(function() {
         if ($('#brand').val()) {
             loadModels($('#brand').val());
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
         // When the brand is changed, call the function to load models
         $('#brand').change(function() {
             var brandId = $(this).val(); // Get selected brand ID
             if (brandId) {
                 loadModels(brandId);  // If there's a brand selected, load the models
+<<<<<<< HEAD
+=======
+=======
+        $('#brand').change(function() {
+            var brandId = $(this).val(); 
+            if (brandId) {
+                loadModels(brandId);  
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
             } else {
                 $('#model').html('<option value="">-- Select Brand First --</option>'); // Reset model dropdown
             }
@@ -63,7 +110,14 @@
                 success: function(result) {
                     console.log('AJAX request successful', result);
                     $('#model').html('<option value="">Select model</option>'); // Reset the model dropdown
+<<<<<<< HEAD
                     // Populate the models dropdown
+=======
+<<<<<<< HEAD
+                    // Populate the models dropdown
+=======
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
                     $.each(result.models, function(index, model) {
                         $('#model').append('<option value="' + model.id + '" ' + (model.id == "{{ old('model', $row->model_id ?? '') }}" ? 'selected' : '') + '>' + model.name + '</option>');
                     });
@@ -76,4 +130,11 @@
         }
     });
 </script>
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557

@@ -15,6 +15,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 // import Echo from 'laravel-echo';
 
 // import Pusher from 'pusher-js';
@@ -30,3 +34,40 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+<<<<<<< HEAD
+=======
+=======
+import Echo from 'laravel-echo';
+
+import Pusher from 'pusher-js';
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '98ebca8cc9f56c5d773e',
+    cluster: 'ap2',
+    forceTLS: true
+});
+
+window.Echo.channel('item-out-of-stock')
+    .listen('.item-out-of-stock', (event) => {
+            Swal.fire({
+                position: 'top',
+                title: 'Out of Stock!',
+                text: `The item "${event.item_name}" is now out of stock!`,
+                icon: 'warning',
+                showCancelButton: true, 
+                confirmButtonText: 'View', 
+                cancelButtonText: 'Ignore', 
+                allowOutsideClick: false, 
+                allowEscapeKey: false,    
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/item`; 
+                }
+            });
+    })
+console.log('Pusher Key:', '98ebca8cc9f56c5d773e')
+console.log('Pusher Cluster:', 'ap2');
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557

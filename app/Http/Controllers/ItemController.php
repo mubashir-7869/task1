@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Item;
 use App\Models\Models;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+use Carbon\Carbon;
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -45,6 +52,10 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         // Validate the incoming request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -61,6 +72,30 @@ class ItemController extends Controller
         $item->save();
 
         // Redirect to a different page after storing or return with a success message
+<<<<<<< HEAD
+=======
+=======
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'brand_id' => 'required|exists:brands,id', 
+            'model_id' => 'nullable|exists:models,id', 
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+            'quantity' => 'required|integer|min:1', 
+        ]);
+        if ($validated['quantity'] >= 1) {
+            $validated['status'] = 'in_stock';
+        }
+        if ($request->hasFile('image')) {
+            $originalFileName = $request->file('image')->getClientOriginalName();
+            $currentDate = Carbon::now()->format('Y-m-d_H-i-s');
+            $fileName = $currentDate . '_' . $originalFileName;
+            $validated['image'] = $request->file('image')->storeAs('items', $fileName, 'public');
+        }
+        // dd($validated);
+        Item::create($validated);
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         return redirect()->route('item.index')->with('success', 'Item created successfully!');
     }
 
@@ -71,6 +106,15 @@ class ItemController extends Controller
     {
 
         $data = Item::query();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+        if ($request->has('show_trashed') && $request->show_trashed == 'true') {
+            $data->onlyTrashed();
+        }
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
         return DataTables::of($data)
             ->addColumn('id', function ($row) {
@@ -103,6 +147,10 @@ class ItemController extends Controller
             ->addColumn('model', function ($row) {
                 return $row->models->name ?? 'N/A';
             })
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
             ->addColumn('actions', function ($row) {
                 return '
                         <a href="#" title="Edit Item" data-url="' . route('item.edit', [$row->id]) . '" data-size="md" data-ajax-popup="true"
@@ -114,6 +162,47 @@ class ItemController extends Controller
                     ';
             })
             ->rawColumns(['image', 'actions'])
+<<<<<<< HEAD
+=======
+=======
+            ->addColumn('status', function ($row) {
+                
+                return $row->status == 'in_stock' ? '<span class="badge bg-success">In Stock</span>' : '<span class="badge bg-warning">Out of Stock</span>';
+            })
+            // ->addColumn('image', function($row) {
+            //     return $row->image ? asset('images/' . $row->image)  : null; // Return image URL
+            // })
+            // ->addColumn('image', function($row) {
+            //     return '<img src="' . asset('images/' . $row->image) . '" alt="Item Image" style="max-width: 100px; height: auto;">';
+            // })
+            ->addColumn('quantity', function($row) {
+                return $row->quantity; 
+            })
+            ->addColumn('actions', function ($row) {
+                if ($row->trashed()) {
+                    return '
+                        <a href="#" title="Restore" onclick="handleAction(' . $row->id . ',\'restore\')" data-bs-toggle="tooltip">
+                            <i class="fas fa-redo-alt"></i>
+                        </a>
+                        &nbsp;&nbsp;
+                        <a href="#" title="Permanent Delete" onclick="handleAction(' . $row->id . ', \'permanentDelete\')" data-bs-toggle="tooltip">
+                            <i class="fa fa-trash text-danger font-18"></i>
+                        </a>';
+                } else {
+                    return '
+                        <a href="#" title="Edit Item" data-url="' . route('item.edit', [$row->id]) . '" data-size="md" data-ajax-popup="true"
+                        data-title="' . __('Edit Item') . '" data-bs-toggle="tooltip">
+                            <i class="fas fa-edit text-info font-18"></i>
+                        </a>
+                        &nbsp;&nbsp;
+                        <a href="#" title="Delete" onclick="handleAction(' . $row->id . ', \'delete\')" data-bs-toggle="tooltip">
+                            <i class="fa fa-trash text-danger font-18"></i>
+                        </a>';
+                }
+            })
+            ->rawColumns(['status','image', 'actions'])
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
             ->toJson();
 
     }
@@ -123,6 +212,10 @@ class ItemController extends Controller
      */
     public function edit(string $id)
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         // Find the model by ID, if not found return to the model list with an error message
         $item = Item::findOrFail($id);
         // Get all brands to populate the select dropdown for the brand
@@ -132,6 +225,18 @@ class ItemController extends Controller
             'row' => $item,
             'brands' => $brands,
             'method' => 'PUT', // Use PUT method for update
+<<<<<<< HEAD
+=======
+=======
+        $item = Item::findOrFail($id);
+        $brands = Brand::all();
+        $data = [
+            'action' => route('item.update', $item->id), 
+            'row' => $item,
+            'brands' => $brands,
+            'method' => 'PUT',
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         ];
         return view('pages.item.form')->with($data);
     }
@@ -144,6 +249,10 @@ class ItemController extends Controller
         // Find the item by ID
         $item = Item::findOrFail($id);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         // Validate the incoming request data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -159,6 +268,31 @@ class ItemController extends Controller
         $item->save();
 
         // Redirect with success message
+<<<<<<< HEAD
+=======
+=======
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'amount' => 'required|numeric',
+            'brand_id' => 'required|exists:brands,id', 
+            'model_id' => 'nullable|exists:models,id', 
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+            'quantity' => 'required|integer|min:1', 
+        ]);
+        if ($validated['quantity'] >= 1) {
+            $validated['status'] = 'in_stock';
+        }
+        if ($request->hasFile('image')) {
+            $originalFileName = $request->file('image')->getClientOriginalName();
+            $currentDate = Carbon::now()->format('Y-m-d_H-i-s');
+            $fileName = $currentDate . '_' . $originalFileName;
+            $validated['image'] = $request->file('image')->storeAs('items', $fileName, 'public');
+        }
+        // dd($validated);
+        $item->update($validated);
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         return redirect()->route('item.index')->with('success', 'Item updated successfully!');
     }
 
@@ -169,17 +303,61 @@ class ItemController extends Controller
     {
         $item = Item::findOrFail($id);
         $item->delete();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
 
         // Redirect with success message
         return redirect()->route('item.index')->with('success', 'Item deleted successfully!');
     }
+<<<<<<< HEAD
+=======
+=======
+        return redirect()->route('item.index')->with('success', 'Item deleted successfully!');
+    }
+
+    public function restore($id)
+    {
+        $item = Item::withTrashed()->find($id);
+        if ($item) {
+            $item->restore();
+            return response()->json(['success' => 'Item restored successfully']);
+        }
+
+        return response()->json(['error' => 'Item not found'], 404);
+    }
+
+    public function forceDelete($id)
+    {
+        $item = Item::withTrashed()->find($id);
+        if ($item) {
+            $item->forceDelete();
+            return response()->json(['message' => 'Item permanently deleted']);
+        }
+
+        return response()->json(['message' => 'Item not found'], 404);
+    }
+
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     public function searchModel(Request $request)
     {
         if (!empty($request->brand_id)) {
             $brandId = $request->input('brand_id');
+<<<<<<< HEAD
 
             // Fetch models associated with the brand
             $models = Models::where('brand_id', $brandId)->get(); // Adjust query based on your database structure
+=======
+<<<<<<< HEAD
+
+            // Fetch models associated with the brand
+            $models = Models::where('brand_id', $brandId)->get(); // Adjust query based on your database structure
+=======
+            $models = Models::where('brand_id', $brandId)->get(); 
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
         
             return response()->json(['models' => $models]);
         } else {

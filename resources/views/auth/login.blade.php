@@ -63,9 +63,21 @@
                     </div>
                 </form>
                 <!-- Register Link -->
+<<<<<<< HEAD
                 <div class="text-center mt-4">
                     <p>Don't have an account? <a href="{{ route('register') }}" class="text-primary">Register here</a></p>
                 </div>
+=======
+<<<<<<< HEAD
+                <div class="text-center mt-4">
+                    <p>Don't have an account? <a href="{{ route('register') }}" class="text-primary">Register here</a></p>
+                </div>
+=======
+                {{-- <div class="text-center mt-4">
+                    <p>Don't have an account? <a href="{{ route('register') }}" class="text-primary">Register here</a></p>
+                </div> --}}
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
             </div>
         </div>
     </div>

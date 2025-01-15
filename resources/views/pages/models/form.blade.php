@@ -19,8 +19,16 @@
 <div class="modal-footer">
     <!-- Cancel Button -->
     {{ Form::button('Cancel', ['class' => 'btn btn-light', 'data-bs-dismiss' => 'modal']) }}
+<<<<<<< HEAD
 
     <!-- Submit Button (either "Create" or "Update" based on the context) -->
+=======
+<<<<<<< HEAD
+
+    <!-- Submit Button (either "Create" or "Update" based on the context) -->
+=======
+>>>>>>> e4491ad02c969cb118a302ba4fe54e8255d2e498
+>>>>>>> 013a8dde3db08e069247b22a6fa0da7d4396f557
     {{ Form::submit(isset($row) ? __('Update') : __('Create'), ['class' => 'btn btn-primary']) }}
 </div>
 {{ Form::close() }}
